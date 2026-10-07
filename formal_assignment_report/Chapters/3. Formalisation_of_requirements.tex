@@ -1,0 +1,40 @@
+\section{Formalisation of requirements}
+In this section we provide the rigid formalisation of the requirements of the system in the form of temporal properties. The formalisation is further supported with the explanation, motivation behind its structure and the statements whether a property belongs to a liveneess or a safety property.
+\subsection{Deadlock}
+No deadlock can be reached within the system.
+\subsection{OuterDoorLocked}
+The outer door can only be locked if it is closed/
+\begin{itemize}
+	\item \textbf{Formalisation:} $\G{(OuterDoorLocked \Rightarrow \neg OuterDoorOpen)}$
+	\item \textbf{Explanation:} Throughut the system, it is always the case that the outer door can become locked only under the condition that the door was closed first. For this reason, it is not possible for the outer door to be locked while it is open, therefore whenever the outer door is locked, it is guaranteed that it is closed. in every other case, when the outer door is open, it is guaranteed that it is not locked.
+	\item \textbf{Property type:} Clearly it is a safety property. In our system the possibility of the outer door being locked before being closed first would be an undesired behaviour. The property describes a condition that holds thorugh the entire system - a single instance of the locked door while it is open would a violation of the property(a finite counter example).
+\end{itemize}
+\subsection{RamOuterDoor}
+The vertical ram is only used when the outer door is closed and locked.
+\begin{itemize}
+	\item \textbf{Formalisation:} $\G{(ramExtended \Rightarrow (outerDoorLocked \wedge \neg outerDoorOpen))}$
+	\item \textbf{Explanation:} The vertical ram is mechanism used for compressing the trash put into the trash bin by a user. Firstly, notice that under the condition of the main control system defined, it awaits until the outer door has been closed by the user after putting the trash into the compartment. Only afterwards, the outer door becomes llcoked (adhering to the previously defined property) and the trapdoor is opened. Following the opening of the trapdoor, the vertical ram is extended to compress the trash. Therefore, it is guaranteed that the vertical ram is only used when the outer door is closed and locked throughout the entire main control system (recall that the main control system is defined as a loop that is repeated infinitely). Finally, we decide to use and operator after the implication (even though it may seem that it could be simplified to "outerDoorLocked" only) in order to ensure that the property remains independent and remains satisfied throughout the entire system.
+	\item \textbf{Property type} This is a safety property. Essentially, it specifies a behaviour of the ram which is not desired to be violated infinitely many times. Therefore, the property can be checked within a single invariant and a single instance of violation would reveal an unexpected behaviour of the system and serve a finite counter exmaple.
+\end{itemize}
+\subsection{TrashEmptied}
+Every time the trash bin is full, it is eventually not full anymore.
+\begin{itemize}
+	\item \textbf{Formalisation} $\G{\F{CapacityExceeded \Rightarrow \F{TrashFitsCapacity(MaxUserTrash)}}}$.
+	\item \textbf{Explanation:} Firstly, recall that the user process is defined in such a way that a user keeps scanning a card until a request to deposit trash is granted.On the other hand, bin process awaits until the user started depositing trash. These conditions imply that at some indefinite time, the trash eventually becomes full and has emptied out. Further, as this process happens infinitely throughout the system, it explains our use of "infinitely often" before parenthesis. CapacityExceeded stores information if at a specifc time the trash bin is full, as soon as it becomes "TRUE", thrashbin requires emptying. Based on the check verifying if the trash bin should still accept trash, which happens after every iteratoin of the loop in the main control system, it is guaranteed that eventuall
+	      "full" trashbin is detected, the truck is requested and finally the trash is emptied. As the permission to deposit trash is granted only when the trash bin allows "MaxUserTrash" to be deposited (recall that main control system has no information about the trash carried by a user) we use the "TrashFitsCapacity(MaxUserTrash)" to indicate that the trash bin is not full anymore and can accept more trash.
+	\item \textbf{Property type:} This is a liveness property. It specifies a behaviour that is guaranteed to happen infinitely often throughout the system. Therefore, it is not possible to provide a finite counter example for this property and if we would like to check it, we would require an infinite trace of the system, in which the trash bin does not become empty infinitely often.
+\end{itemize}
+\subsection{AuthorizedOpenOnly}
+An unauthorized user cannot open the outer door.
+\begin{itemize}
+	\item \textbf{Formalisation} $\G{\neg authorized \Rightarrow \neg OuterDoorOpen}$
+	\item \textbf{Explanation:} Firstly, we explain the use of the newly introduced global variable "authorized". After introducting it as a global variable, we added a sanity check which uses "authorized" to check if the outer door access should be granted. Next, without a variable, based on the main control system, it is not possible to for how long a user is authorized to open the outer door and at which point the access to it (granted with the permission to deposit trash) is revoked. Thereofre, as soon as the permission is granted to a user, the variable "authorized" stores it. Subsequently, the role of the user in operating a trash bin ends as soon as the outer door is closed (all the remaining activities are performed by the main control system.), therefore as soon as it happens access is revoked. This way we can trace the authorization of a user. Under this convention, it is guaranteed that every time a user is not granted permission, the outer door cannot be opened by him.
+	\item \textbf{Property type:} This is a safety property. It specifies a behaviour that is not desired to be violated infinitely many times. A single instance of a user being able to open the outer door wihtout being authorized would violate the property and server as a finite counter example.
+\end{itemize}
+\subsection{UserTrash}
+The user infinitely often has trash and infinitely often has no trash.
+\begin{itemize}
+	\item \textbf{Formalisation} $\G{\F{userTrash > 0}} \wedge \G{\F{userTrash = 0}}$
+	\item \textbf{Explanation:} Throughout the system, the single variable "userTrash" is used in order to determine uf a user possess trash to be thrown away. Again, we refer to loop in the user process
+\end{itemize}
+

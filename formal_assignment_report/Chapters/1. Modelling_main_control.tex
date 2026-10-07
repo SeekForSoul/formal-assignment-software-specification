@@ -1,0 +1,32 @@
+\section{Exercise R11}
+
+Suppose there is exactly one packet switch between a sending host and a
+receiving host. The transmission rates between the sending host and the
+switch and between the switch and the receiving host are $\mathbb{R_1}$ and $\mathbb{R_2}$, respec-
+tively. Assuming that the switch uses store-and-forward packet switching,
+what is the total end-to-end delay to send a packet of length L? (Ignore queu-
+ing, propagation delay, and processing delay.)\\
+Solution: \\
+Firstly, we recall from the section 1.4.3 of "Computer Networks of the Internet" the total end-to-end delay $d_{end-to-end}$ is given as the sum of the propagation delay $d_{prop}$, processing delay $d_{proc}$, queuing delay $d_{queue}$ and transmission delay $d_{trans}$, multiplied by the number of links $N_{links}$ between the sending host and the receiving host. \\
+For this reason, it holds that: \\
+\begin{equation}
+	d_{end-to-end} = N_{links} \cdot (d_{prop} + d_{proc} + d_{queue} + d_{trans})
+\end{equation}
+Subsequently, as the exercise suggests that the queuing, propagation and processing delays are not considered, we can drop them and simplify the equation to: \\
+\begin{equation}
+	d_{end-to-end} = N_{links} \cdot d_{trans}
+\end{equation}
+Furthermore, as the exercise does not specify the number of links, we can assume that there is only one link between the sending host and the receiving host, I will also assume that this single link is basically a switch.\\
+Recall from the sections 1.4.1 that the transmission delay $d_{trans}$ is measured as the time it takes to push all the packet bits into the link by the sending host. \\
+It holds that the time $d_1$ it takes to send the packet from the sending host to the switch is given as: \\
+\begin{equation}
+	d_1 = \frac{L}{R_1}
+\end{equation}
+Now, recall that because of the basics of store-and-forward packet switching, switch itself needs to receive the entire packet before it can start transmitting it further to the receiving host, because of this we need to consider the time $d_2$ it takes to send the packet from the switch to the receiving host, which is given as: \\
+\begin{equation}
+	d_2 = \frac{L}{R_2}
+\end{equation}
+The total end-to-end delay $d_{end-to-end}$ is then given as the sum of the two delays $d_1$ and $d_2$, which is: \\
+\begin{equation}
+	d_{end-to-end} = d_1 + d_2 = \frac{L}{R_1} + \frac{L}{R_2}.
+\end{equation}

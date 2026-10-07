@@ -1,0 +1,50 @@
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newlength{\twosubht}
+\newsavebox{\twosubbox}
+
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multicol}
+
+\usepackage{tabularx}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{color,soul}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[margin = 2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{appendix}
+\usepackage{fancyhdr}
+\usepackage[shortlabels]{enumitem}
+\usepackage{listings}
+
+\usepackage{hyperref}
+\usepackage[noabbrev, capitalise]{cleveref}
+
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
+\usepackage{comment}
+\usepackage{ltl}
+
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+	\tikz@scan@one@point\pgfutil@firstofone#1\relax
+	\edef#2{\the\pgf@x}%
+	\edef#3{\the\pgf@y}%
+}
+\makeatother
