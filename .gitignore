@@ -1,0 +1,46 @@
+# TLC state storage (can get very large)
+states/
+**/states/
+
+# Toolbox model-run output (per model)
+**/*.toolbox/*/MC.tla
+**/*.toolbox/*/MC.cfg
+**/*.toolbox/*/MC.out
+**/*.toolbox/*/*.out
+**/*.toolbox/*/*_TTrace_*
+**/*.toolbox/*/*/
+
+# Next to spec files
+**/MC.tla
+**/MC.cfg
+**/MC.out
+**/*_TTrace_*.tla
+**/*_TTrace_*.bin
+**/*.old
+**/*.bin
+
+# Toolbox medata
+**/.metadata/
+**/.settings/
+
+# Tex files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.xdv
