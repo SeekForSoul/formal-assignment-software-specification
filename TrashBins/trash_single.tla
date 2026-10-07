@@ -121,7 +121,7 @@ RamOuterDoor == [](ramExtended => (outerDoorLocked /\ ~outerDoorOpen))
 \* Every time the trash bin is full, it is eventually not full anymore.
 TrashEmptied == []<>(CapacityExceeded => <>TrashFitsCapacity(MaxUserTrash))
 \* An unauthorized user cannot open the outer door.
-AuthorizedOpenOnly == []((~authorized /\ ~OuterDoorLocked) => ~OuterDoorOpen)
+AuthorizedOpenOnly == [](~authorized => ~OuterDoorOpen)
 \* The user infinitely often has trash and infinitely often has no trash.
 UserTrash == []<>(userTrash > 0) /\ []<>(userTrash = 0)
 \* Every time the user has trash, they can deposit their trash.
