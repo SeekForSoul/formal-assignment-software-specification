@@ -281,7 +281,16 @@ end process;
 process truckProcess \in Trucks
 begin
   TruckStart:
-    \* Implement behaviour
+    while TRUE do
+      await truckCommand.conmand = "request";
+      truckCommand := [command |-> "arrived", bin |-> 1];
+    TruckEmptyingTrash:
+      truckCommand := [command |-> "start_emptying", bin |-> 1];
+      binCommand := [command |-> "empty", open |-> TRUE]; \* thrash bin is being emptied
+    TruckFinishedEmptying:
+      await binCommand.command = "finished";
+      truckCommand := [command |-> "emptied", bin |-> 1];
+    end while;
     skip;
 end process;
 
