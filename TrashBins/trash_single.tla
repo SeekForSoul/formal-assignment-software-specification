@@ -280,19 +280,31 @@ end process;
 \* Remodel it to react to requests and empty the trash bin!
 process truckProcess \in Trucks
 begin
-  TruckStart:
+  TruckBeginning:
     while TRUE do
-      await truckCommand.conmand = "request";
+      \* Await a request from the controller
+      await truckCommand.command = "request";
+      
+  TruckArrive:
+      \* Notify the controller that the truck has arrived at the bin
       truckCommand := [command |-> "arrived", bin |-> 1];
-    TruckEmptyingTrash:
+      
+  TruckStartEmptying:
+      \* Update truck status to emptying, and command the physical bin to empty
       truckCommand := [command |-> "start_emptying", bin |-> 1];
-      binCommand := [command |-> "empty", open |-> TRUE]; \* thrash bin is being emptied
-    TruckFinishedEmptying:
+      binCommand := [command |-> "empty", open |-> TRUE];
+      
+  TruckAwaitBinFinished:
+      \* Wait for the physical bin to complete its emptying process
       await binCommand.command = "finished";
+      
+  TruckNotifyEmptied:
+      \* Notify the controller that the job is entirely finished
       truckCommand := [command |-> "emptied", bin |-> 1];
+      
     end while;
-    skip;
 end process;
+
 
 
 \*****************************
@@ -979,4 +991,5 @@ Spec == Init /\ [][Next]_vars
 
 =============================================================================
 \* Modification History
+\* Last modified Wed Oct 14 13:54:15 CEST 2026 by alvas
 \* Last modified Sun Oct 11 23:04:59 CEST 2026 by root
